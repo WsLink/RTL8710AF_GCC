@@ -1,0 +1,2 @@
+# RTL8710AF_GCC
+WiFi芯片RTL8710AF的GCC版SDK，采用C#脚本进行编译
