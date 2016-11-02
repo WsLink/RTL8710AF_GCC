@@ -1,0 +1,56 @@
+make[1]: 进入目录“/cygdrive/e/auto/rtl871x/sample2”
+===========================================================
+Build app
+===========================================================
+mkdir -p obj
+mkdir -p bin
+cp ../GCCLib/soc/realtek/8195a/misc/bsp/image/ram_1.r.bin obj/ram_1.r.bin
+chmod 777 obj/ram_1.r.bin
+B:/GCC/bin/arm-none-eabi-objcopy --rename-section .data=.loader.data,contents,alloc,load,readonly,data -I binary -O elf32-littlearm -B arm obj/ram_1.r.bin obj/ram_1.r.o 
+B:/GCC/bin/arm-none-eabi-gcc  -DM3 -DCONFIG_PLATFORM_8195A -DGCC_ARMCM3 -DARDUINO_SDK -mcpu=cortex-m3 -mthumb -g2 -w -O2 -Wno-pointer-sign -fno-common -fmessage-length=0  -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-short-enums -mcpu=cortex-m3 -DF_CPU=166000000L -std=gnu99 -fsigned-char  -I../GCCLib/inc -c ../GCCLib/common/api/at_cmd/atcmd_sys.c -o ../GCCLib/common/api/at_cmd/atcmd_sys.o
+B:/GCC/bin/arm-none-eabi-gcc  -DM3 -DCONFIG_PLATFORM_8195A -DGCC_ARMCM3 -DARDUINO_SDK -mcpu=cortex-m3 -mthumb -g2 -w -O2 -Wno-pointer-sign -fno-common -fmessage-length=0  -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-short-enums -mcpu=cortex-m3 -DF_CPU=166000000L -std=gnu99 -fsigned-char  -I../GCCLib/inc -c ../GCCLib/common/api/at_cmd/atcmd_sys.c -MM -MT ../GCCLib/common/api/at_cmd/atcmd_sys.o -MF obj/atcmd_sys.d
+cp ../GCCLib/common/api/at_cmd/atcmd_sys.o obj/atcmd_sys.o
+chmod 777 obj/atcmd_sys.o
+B:/GCC/bin/arm-none-eabi-gcc  -DM3 -DCONFIG_PLATFORM_8195A -DGCC_ARMCM3 -DARDUINO_SDK -mcpu=cortex-m3 -mthumb -g2 -w -O2 -Wno-pointer-sign -fno-common -fmessage-length=0  -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-short-enums -mcpu=cortex-m3 -DF_CPU=166000000L -std=gnu99 -fsigned-char  -I../GCCLib/inc -c ../GCCLib/common/drivers/ethernet_mii/ethernet_mii.c -o ../GCCLib/common/drivers/ethernet_mii/ethernet_mii.o
+B:/GCC/bin/arm-none-eabi-gcc  -DM3 -DCONFIG_PLATFORM_8195A -DGCC_ARMCM3 -DARDUINO_SDK -mcpu=cortex-m3 -mthumb -g2 -w -O2 -Wno-pointer-sign -fno-common -fmessage-length=0  -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-short-enums -mcpu=cortex-m3 -DF_CPU=166000000L -std=gnu99 -fsigned-char  -I../GCCLib/inc -c ../GCCLib/common/drivers/ethernet_mii/ethernet_mii.c -MM -MT ../GCCLib/common/drivers/ethernet_mii/ethernet_mii.o -MF obj/ethernet_mii.d
+cp ../GCCLib/common/drivers/ethernet_mii/ethernet_mii.o obj/ethernet_mii.o
+chmod 777 obj/ethernet_mii.o
+B:/GCC/bin/arm-none-eabi-gcc  -mcpu=cortex-m3 -mthumb -g --specs=nano.specs -nostartfiles -Wl,-Map=bin/application.map -Os -Wl,--gc-sections -Wl,--cref -Wl,--entry=Reset_Handler -Wl,--no-enum-size-warning -Wl,--no-wchar-size-warning -o bin/app.axf  obj/system_8195a.o obj/atcmd_ethernet.o obj/atcmd_lwip.o obj/shtc1.o obj/wigadget.o obj/ram_1.r.o -L../GCCLib/soc/realtek/8195a/misc/bsp/lib/common/GCC/ -l_platform -l_wlan -l_p2p -l_wps -l_rtlstd -l_websocket -l_xmodem -lm -lc -lnosys -lgcc -T./img2.ld
+B:/GCC/bin/arm-none-eabi-objdump -d bin/app.axf > bin/app.asm
+===========================================================
+Image manipulating
+===========================================================
+B:/GCC/bin/arm-none-eabi-nm bin/app.axf | sort > bin/app.nmap
+B:/GCC/bin/arm-none-eabi-objcopy -j .image2.start.table -j .ram_image2.text -j .ram_image2.rodata -j .ram.data -Obinary bin/app.axf bin/ram_2.bin
+B:/GCC/bin/arm-none-eabi-objcopy -j .sdr_text -j .sdr_rodata -j .sdr_data -Obinary bin/app.axf bin/sdram.bin
+cp ../GCCLib/soc/realtek/8195a/misc/bsp/image/ram_1.p.bin bin/ram_1.p.bin
+chmod 777 bin/ram_1.p.bin
+chmod +rx ../tool/tools/pick.exe ../tool/tools/checksum.exe ../tool/tools/padding.exe
+../tool/tools/pick.exe 0x`grep __ram_image2_text_start__ bin/app.nmap | gawk '{print $1}'` 0x`grep __ram_image2_text_end__ bin/app.nmap | gawk '{print $1}'` bin/ram_2.bin bin/ram_2.p.bin body+reset_offset+sig
+b:268460032 s:268460032 e:268760000
+size 299968
+copy size 299968
+../tool/tools/pick.exe 0x`grep __ram_image2_text_start__ bin/app.nmap | gawk '{print $1}'` 0x`grep __ram_image2_text_end__ bin/app.nmap | gawk '{print $1}'` bin/ram_2.bin bin/ram_2.ns.bin body+reset_offset
+b:268460032 s:268460032 e:268760000
+size 299968
+copy size 299968
+../tool/tools/pick.exe 0x`grep __sdram_data_start__ bin/app.nmap | gawk '{print $1}'` 0x`grep __sdram_data_end__ bin/app.nmap | gawk '{print $1}'` bin/sdram.bin bin/ram_3.p.bin body+reset_offset
+b:805306368 s:805306368 e:805306368
+size 0
+copy size 0
+../tool/tools/padding.exe 44k 0xFF bin/ram_1.p.bin
+total 44 k, padding data ff, name bin/ram_1.p.bin
+Original size 15032
+Padding  size 45056
+cat bin/ram_1.p.bin > bin/ram_all.bin
+chmod 777 bin/ram_all.bin
+cat bin/ram_2.p.bin >> bin/ram_all.bin
+if [ -s bin/sdram.bin ]; then cat bin/ram_3.p.bin >> bin/ram_all.bin; fi
+cat bin/ram_2.ns.bin > bin/ota.bin
+chmod 777 bin/ota.bin
+if [ -s bin/sdram.bin ]; then cat bin/ram_3.p.bin >> bin/ota.bin; fi
+../tool/tools/checksum.exe bin/ota.bin || true
+size = 299984 
+checksum 1ce4c7f
+rm bin/ram_*.p.bin bin/ram_*.ns.bin
+make[1]: 离开目录“/cygdrive/e/auto/rtl871x/sample2”
