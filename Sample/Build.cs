@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 
 var build = Builder.Create("GCC") as GCC;
+//build.ToolPath = @"E:\Auto\RTL871x\gcc\tools\arm-none-eabi-gcc\4.8.3-2014q1";
 build.Init(false);
 build.Cortex = 3;
 build.Linux = true;
@@ -12,9 +13,11 @@ build.Entry = "Reset_Handler";
 build.Defines.Add("CONFIG_PLATFORM_8195A");
 build.Defines.Add("GCC_ARMCM3");
 build.AddIncludes("..\\Lib", true, true);
-build.AddLibs("..\\Lib", "*RTL8710*.a");
+//build.AddLibs("..\\Lib", "*RTL8710*.a");
 build.AddLibs("../Lib/soc/realtek/8195a/misc/bsp/lib/common/GCC/", "lib_platform.a;lib_wlan_mp.a;lib_p2p.a;lib_wps.a;lib_rtlstd.a;lib_websocket.a;lib_xmodem.a");
+build.AddFiles("..\\Lib", "*.c;*.cpp");
 build.AddFiles(".", "*.c;*.cpp");
+build.Debug = true;
 build.CompileAll();
 
 var ram1 = "../Lib/soc/realtek/8195a/misc/bsp/image/ram_1.r.bin";
@@ -27,7 +30,8 @@ build.Libs.Remove("lib_wlan.a");
 build.Libs.Remove("lib_sdcard.a");
 build.ExtBuilds = "-lm -lc -lnosys -lgcc -nostartfiles";
 
-build.Build(".hex");
+var rs = build.Build(".hex");
+if(rs != 0) return;
 
 /*build.Debug = true;
 build.CompileAll();
