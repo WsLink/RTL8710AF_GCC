@@ -13,7 +13,7 @@ build.Defines.Add("CONFIG_PLATFORM_8195A");
 build.Defines.Add("GCC_ARMCM3");
 build.AddIncludes("..\\Lib", true, true);
 build.AddLibs("..\\Lib", "*RTL8710*.a");
-build.AddLibs("../Lib/soc/realtek/8195a/misc/bsp/lib/common/GCC/", "*.a");
+build.AddLibs("../Lib/soc/realtek/8195a/misc/bsp/lib/common/GCC/", "lib_platform.a;lib_wlan_mp.a;lib_p2p.a;lib_wps.a;lib_rtlstd.a;lib_websocket.a;lib_xmodem.a");
 build.AddFiles(".", "*.c;*.cpp");
 build.CompileAll();
 
@@ -23,7 +23,9 @@ build.ObjCopy.Run(cmd, 3000, NewLife.Log.XTrace.WriteLine);
 build.Objs.Add("Obj\\ram_1.r.o");
 
 /*build.ExtBuilds.Add("-L../Lib/soc/realtek/8195a/misc/bsp/lib/common/GCC/ -l_platform -l_wlan_mp -l_p2p -l_wps -l_rtlstd -l_websocket -l_xmodem -lm -lc -lnosys -lgcc");*/
-build.ExtBuilds.Add("-lm -lc -lnosys -lgcc");
+build.Libs.Remove("lib_wlan.a");
+build.Libs.Remove("lib_sdcard.a");
+build.ExtBuilds.Add("-lm -lc -lnosys -lgcc -nostartfiles");
 
 build.Build(".hex");
 
@@ -41,7 +43,7 @@ nm.Run(cmd, 3000, msg => list.Add(msg));
 
 // 导出
 cmd = "-j .image2.start.table -j .ram_image2.text -j .ram_image2.rodata -j .ram.data -Obinary {0} ram_2.bin".F(axf);
-//build.ObjCopy.Run(cmd, 3000, NewLife.Log.XTrace.WriteLine);
+build.ObjCopy.Run(cmd, 3000, NewLife.Log.XTrace.WriteLine);
 
 var start = list.FirstOrDefault(e=>e.Trim().EndsWith("__ram_image2_text_start__")).Substring(null, " ").ToHex().ToUInt32(0, false);
 var end   = list.FirstOrDefault(e=>e.Trim().EndsWith("__ram_image2_text_end__")).Substring(null, " ").ToHex().ToUInt32(0, false);
