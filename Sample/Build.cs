@@ -25,7 +25,7 @@ build.Objs.Add("Obj\\ram_1.r.o");
 /*build.ExtBuilds.Add("-L../Lib/soc/realtek/8195a/misc/bsp/lib/common/GCC/ -l_platform -l_wlan_mp -l_p2p -l_wps -l_rtlstd -l_websocket -l_xmodem -lm -lc -lnosys -lgcc");*/
 build.Libs.Remove("lib_wlan.a");
 build.Libs.Remove("lib_sdcard.a");
-build.ExtBuilds.Add("-lm -lc -lnosys -lgcc -nostartfiles");
+build.ExtBuilds = "-lm -lc -lnosys -lgcc -nostartfiles";
 
 build.Build(".hex");
 
