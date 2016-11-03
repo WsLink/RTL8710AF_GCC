@@ -4,12 +4,8 @@
 var build = Builder.Create("GCC");
 build.Init(false);
 build.Cortex = 3;
-build.Defines.Add("M3");
 build.Defines.Add("CONFIG_PLATFORM_8195A");
 build.Defines.Add("GCC_ARMCM3");
-build.Defines.Add("ARDUINO_SDK");
-build.Defines.Add("F_CPU=166000000L");
-build.Defines.Add("LWIP_TIMEVAL_PRIVATE=0");
 build.AddIncludes(".", true, true);
 build.AddFiles("common", "*.c;*.cpp;*.s", true, "tcpecho.c;udpecho.c");
 build.AddFiles("os", "*.c;*.cpp;*.s", true, "");
