@@ -1,5 +1,3 @@
-
-
 ENTRY(Reset_Handler)
 
 INCLUDE "export-rom_v02.txt"
@@ -16,75 +14,26 @@ MEMORY
   SDRAM_RAM (rwx)  : ORIGIN = 0x30000000, LENGTH = 2M
 }
 
-
-
 SECTIONS
 {
   __rom_bss_start__ = 0x10000300;
   __rom_bss_end__ = 0x10000bc8;
 
-/*
-  .ram.start.table :
-  {
-    __ram_image1_text_start__ = .;
-    __ram_start_table_start__ = .;
-    KEEP(*(SORT(.start.ram.data*)))
-    __ram_start_table_end__ = .;
-    
-  } > ROM_USED_RAM
-*/
-
-/*  Add . to assign the start address of the section,                                     * 
-  *  to prevent the change of the start address by ld doing section alignment */  
-
-
-/* these 4 sections is used by ROM global variable */
-  	/* Don't move them and never add RAM code variable to these sections */
-/*
-  .ram_image1.text . :
-  {
-    __image1_validate_code__ = .;
-    KEEP(*(.image1.validate.rodata*))
-    KEEP(*(.infra.ram.data*))
-    KEEP(*(.timer.ram.data*))
-    KEEP(*(.cutb.ram.data*))
-    KEEP(*(.cutc.ram.data*))
-    KEEP(*(.hal.ram.data*))
-    __image1_bss_start__ = .;
-    __image1_bss_end__ = .;
-    __ram_image1_data_end__ = .;
-    
-    *(.hal.ram.text*)    
-    *(.infra.ram.text*)
-    __ram_image1_text_end__ = .;
-  } > ROM_USED_RAM
-*/
-/*
-  .tcm :
-  {
-    __tcm_start__ = .;
-    *(.tcm.heap)
-    *mem.o (.bss)
-    *memp.o (.bss)
-    __tcm_end__ = .;
-  } > TCM
-*/
-  
   .bootloader :
   {
     KEEP(*(.loader.data*))
   } > ROM_USED_RAM
-  
+
   OVERLAY 0x1FFF0000:
   {
   	.valid
-  	{ 
+  	{
 	    *mem.o (.bss*)
 	    *memp.o (.bss*)
 	    *(.tcm.heap)
   	}
-  	.dummy 
-  	{ 
+  	.dummy
+  	{
 	  	__ram_image1_text_start__ = .;
 	    __ram_start_table_start__ = .;
 	    KEEP(*(SORT(.start.ram.data*)))
@@ -101,8 +50,8 @@ SECTIONS
     	__image1_bss_end__ = .;
     	.ram_image1.bss$$Limit = .;
     	__ram_image1_data_end__ = .;
-	    
-	    *(.hal.ram.text*)    
+
+	    *(.hal.ram.text*)
 	    *(.infra.ram.text*)
   	}
   } > TCM
@@ -122,11 +71,11 @@ SECTIONS
   {
     KEEP(*(.infra.ram.start*))
     *(.mon.ram.text*)
-    *(.hal.flash.text*)    
+    *(.hal.flash.text*)
     *(.hal.sdrc.text*)
     *(.hal.gpio.text*)
     *(.fwu.text*)
-    *(.text*)    
+    *(.text*)
   } > BD_RAM
 
   .ram_image2.rodata :
@@ -135,20 +84,20 @@ SECTIONS
     *(.fwu.rodata*)
   } > BD_RAM
 
-  .ram.data : 
+  .ram.data :
   {
     __data_start__ = .;
     *(.data*)
     __data_end__ = .;
-  	__ram_image2_text_end__ = .;    
+  	__ram_image2_text_end__ = .;
   } > BD_RAM
-  
+
   .ram.bss :
   {
     __bss_start__ = .;
     .ram.bss$$Base = .;
-    *(.hal.flash.data*)    
-    *(.hal.sdrc.data*)    
+    *(.hal.flash.data*)
+    *(.hal.sdrc.data*)
     *(.hal.gpio.data*)
     *(.fwu.data*)
     *(.bss*)
@@ -158,19 +107,19 @@ SECTIONS
     .ram.bss$$Limit = .;
   } > BD_RAM
 
-  .bf_data : 
+  .bf_data :
   {
     __buffer_data_start__ = .;
     *(.bfsram.data*)
     __buffer_data_end__ = .;
-    
+
   } > BD_RAM
 
-  .bf_data2 : 
+  .bf_data2 :
   {
     __buffer_data_start2__ = .;
     __buffer_data_end2__ = .;
-    
+
   } > RECY_RAM
 
   .sdr_text :
@@ -190,7 +139,7 @@ SECTIONS
     *(.websocket.rodata*)
   } > SDRAM_RAM
 
-  .sdr_data : 
+  .sdr_data :
   {
     *(.sdram.data*)
     *(.p2p.data*)
