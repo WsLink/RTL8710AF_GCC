@@ -41,7 +41,7 @@ nm.Run(cmd, 3000, msg => list.Add(msg));
 
 // 导出
 cmd = "-j .image2.start.table -j .ram_image2.text -j .ram_image2.rodata -j .ram.data -Obinary {0} ram_2.bin".F(axf);
-build.ObjCopy.Run(cmd, 3000, NewLife.Log.XTrace.WriteLine);
+//build.ObjCopy.Run(cmd, 3000, NewLife.Log.XTrace.WriteLine);
 
 var start = list.FirstOrDefault(e=>e.Trim().EndsWith("__ram_image2_text_start__")).Substring(null, " ").ToHex().ToUInt32(0, false);
 var end   = list.FirstOrDefault(e=>e.Trim().EndsWith("__ram_image2_text_end__")).Substring(null, " ").ToHex().ToUInt32(0, false);
@@ -51,7 +51,7 @@ Console.WriteLine("Start: 0x{0:X8} End:0x{1:X8}", start, end);
 var img2 = File.ReadAllBytes("ram_2.bin");
 var buf = new Byte[8];
 buf.Write((UInt32)img2.Length);
-buf.Write(start);
+buf.Write(start, 4);
 
 var fs = File.Create("ram_all.bin");
 // 写入img1并填充44k
