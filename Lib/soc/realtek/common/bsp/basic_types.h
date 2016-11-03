@@ -61,7 +61,7 @@
 typedef unsigned int	        uint;
 typedef	signed int		        sint;
 
-#ifdef __ICCARM__
+#if defined(__ICCARM__) || defined(__CC_ARM)
 typedef signed long long        __int64_t;
 typedef unsigned long long      __uint64_t;
 #endif
@@ -76,17 +76,17 @@ typedef unsigned long long      __uint64_t;
 #define u64                     uint64_t
 
 #ifdef CONFIG_MBED_ENABLED
-typedef unsigned int            BOOL;
+	typedef unsigned int            BOOL;
 #else
-#ifndef BOOL
-typedef unsigned char           BOOL;
-#endif
-#ifndef bool
-// bool 与C++内建类型冲突
-#ifndef __cplusplus
-typedef unsigned char           bool;
-#endif
-#endif
+	#ifndef BOOL
+		typedef unsigned char           BOOL;
+	#endif
+	#ifndef bool
+		// bool 与C++内建类型冲突
+		#ifndef __cplusplus
+			typedef unsigned char           bool;
+		#endif
+	#endif
 #endif
 
 #define UCHAR                   uint8_t
