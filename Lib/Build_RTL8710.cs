@@ -12,7 +12,7 @@ build.AddFiles("common", "*.c;*.cpp;*.s", true, "tcpecho.c;udpecho.c");
 build.AddFiles("os", "*.c;*.cpp;*.s", true, "");
 build.AddFiles("soc\\realtek\\8195a", "*.c;*.cpp;*.s", true, "rtl8195a_pcm.c;rtl8195a_sdio_device.c;app_start.c;cmsis_nvic.c");
 build.CompileAll();
-build.BuildLib(".a");
+build.BuildLib("lib_RTL8710.a");
 
 build.Debug = true;
 //build.CompileAll();
