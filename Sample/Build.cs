@@ -8,6 +8,7 @@ var build = Builder.Create("GCC") as GCC;
 build.Init(false);
 build.Cortex = 3;
 build.Linux = true;
+build.RebuildTime = 7 * 24 * 3600;
 build.Specs = "nano.specs";
 build.Entry = "Reset_Handler";
 build.Defines.Add("CONFIG_PLATFORM_8195A");
@@ -17,7 +18,6 @@ build.AddIncludes("..\\Lib", true, true);
 build.AddLibs("../Lib/soc/realtek/8195a/misc/bsp/lib/common/GCC/", "lib_platform.a;lib_wlan_mp.a;lib_p2p.a;lib_wps.a;lib_rtlstd.a;lib_websocket.a;lib_xmodem.a");
 build.AddFiles("..\\Lib", "*.c;*.cpp");
 build.AddFiles(".", "*.c;*.cpp");
-build.Debug = true;
 build.CompileAll();
 
 var ram1 = "../Lib/soc/realtek/8195a/misc/bsp/image/ram_1.r.bin";

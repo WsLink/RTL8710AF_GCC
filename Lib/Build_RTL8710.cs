@@ -6,6 +6,7 @@ build.Init(false);
 build.Cortex = 3;
 build.Linux = true;
 //build.Partial = true;	// 分部编译链接
+build.RebuildTime = 7 * 24 * 3600;
 build.Defines.Add("CONFIG_PLATFORM_8195A");
 build.Defines.Add("GCC_ARMCM3");
 build.AddIncludes(".", true, true);
