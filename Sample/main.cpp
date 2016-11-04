@@ -19,6 +19,8 @@ int main(void)
 	/* Initialize log uart and at command service */
 	console_init();
 
+	DiagPrintf("万家灯火，无声物联！");
+	
 	/* pre-processor of application example */
 	pre_example_entry();
 
