@@ -14,10 +14,10 @@ build.Entry = "Reset_Handler";
 build.Defines.Add("CONFIG_PLATFORM_8195A");
 build.Defines.Add("GCC_ARMCM3");
 build.AddIncludes("..\\Lib", true, true);
-build.AddLibs("..\\Lib", "*RTL8710*.a");
 build.AddLibs("../Lib/soc/realtek/8195a/misc/bsp/lib/common/GCC/", "lib_platform.a;lib_wlan.a;lib_p2p.a;lib_wps.a;lib_rtlstd.a;lib_websocket.a;lib_xmodem.a");
-//build.AddFiles("..\\Lib", "*.c;*.cpp");
+//build.AddLibs("..\\Lib", "*RTL8710*.a");
 build.AddFiles(".", "*.c;*.cpp");
+build.AddFiles("..\\Lib", "*.c;*.cpp", true, "app_start.c");
 build.CompileAll();
 
 var ram1 = "../Lib/soc/realtek/8195a/misc/bsp/image/ram_1.r.bin";
@@ -30,7 +30,7 @@ build.Libs.Remove("lib_wlan_mp.a");
 build.Libs.Remove("lib_sdcard.a");
 build.ExtBuilds = "-lm -lc -lnosys -lgcc -nostartfiles";
 
-var rs = build.Build(".hex");
+var rs = build.Build(".axf");
 if(rs != 0) return;
 
 /*build.Debug = true;
@@ -50,8 +50,8 @@ cmd = "-j .image2.start.table -j .ram_image2.text -j .ram_image2.rodata -j .ram.
 build.ObjCopy.Run(cmd, 3000, NewLife.Log.XTrace.WriteLine);
 
 var start = list.FirstOrDefault(e=>e.Trim().EndsWith("__ram_image2_text_start__")).Substring(null, " ").ToHex().ToUInt32(0, false);
-var end   = list.FirstOrDefault(e=>e.Trim().EndsWith("__ram_image2_text_end__")).Substring(null, " ").ToHex().ToUInt32(0, false);
-Console.WriteLine("Start: 0x{0:X8} End:0x{1:X8}", start, end);
+//var end   = list.FirstOrDefault(e=>e.Trim().EndsWith("__ram_image2_text_end__")).Substring(null, " ").ToHex().ToUInt32(0, false);
+//Console.WriteLine("Start: 0x{0:X8} End:0x{1:X8}", start, end);
 
 // 构建头部。4大小+4地址+8签名
 var img2 = File.ReadAllBytes("ram_2.bin");
