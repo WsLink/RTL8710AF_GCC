@@ -1,38 +1,24 @@
 extern "C" {
-#include "FreeRTOS.h"
-#include "task.h"
-#include "diag.h"
-#include "main.h"
-
-extern int rtl_cryptoEngine_init(void);
-extern void console_init(void);
+	#include "diag.h"
+	#include "gpio_api.h"   // mbed
 }
-
 
 int main(void)
 {
-	if ( rtl_cryptoEngine_init() != 0 ) {
-		DiagPrintf("crypto engine init failed\r\n");
-	}
+    gpio_t gpio_led;
 
-	/* Initialize log uart and at command service */
-	console_init();
+	DiagPrintf("万家灯火，无声物联！\r\n");
 
-	DiagPrintf("万家灯火，无声物联！");
-
-	/* wlan intialization */
-#if defined(CONFIG_WIFI_NORMAL) && defined(CONFIG_NETWORK)
-	wlan_network();
-#endif
-
-    /*Enable Schedule, Start Kernel*/
-#if defined(CONFIG_KERNEL) && !TASK_SCHEDULER_DISABLED
-	#ifdef PLATFORM_FREERTOS
-	vTaskStartScheduler();
-	#endif
-#else
-	RtlConsolTaskRom(NULL);
-#endif
+    // Init LED control pin
+    gpio_init(&gpio_led, PC_5);
+    gpio_dir(&gpio_led, PIN_OUTPUT);    // Direction: Output
+    gpio_mode(&gpio_led, PullNone);     // No pull
+    while(1){
+        gpio_write(&gpio_led, !gpio_read(&gpio_led));
+        //RtlMsleepOS(1000);
+		volatile int n = 100000;
+		while(n--);
+    }
 
 	return 0;
 }
