@@ -3,8 +3,9 @@
 
 using System.Collections.Generic;
 
+var lib = "..\\Lib\\";
+
 var build = Builder.Create("GCC") as GCC;
-//build.ToolPath = @"E:\Auto\RTL871x\gcc\tools\arm-none-eabi-gcc\4.8.3-2014q1";
 build.Init(false);
 build.Cortex = 3;
 build.Linux = true;
@@ -13,21 +14,18 @@ build.Specs = "nano.specs";
 build.Entry = "Reset_Handler";
 build.Defines.Add("CONFIG_PLATFORM_8195A");
 build.Defines.Add("GCC_ARMCM3");
-build.AddIncludes("..\\Lib", true, true);
-build.AddLibs("../Lib/soc/realtek/8195a/misc/bsp/lib/common/GCC/", "lib_platform.a;lib_wlan.a;lib_p2p.a;lib_wps.a;lib_rtlstd.a;lib_websocket.a;lib_xmodem.a");
-//build.AddLibs("..\\Lib", "*RTL8710*.a");
+build.AddIncludes(lib, true, true);
+//build.AddLibs(lib, "*RTL8710*.a");
+build.AddLibs(lib + "soc/realtek/8195a/misc/bsp/lib/common/GCC/", "lib_platform.a;lib_wlan.a;lib_p2p.a;lib_wps.a;lib_rtlstd.a;lib_websocket.a;lib_xmodem.a");
 build.AddFiles(".", "*.c;*.cpp");
-build.AddFiles("..\\Lib", "*.c;*.cpp", true, "app_start.c");
+build.AddFiles(lib, "*.c;*.cpp", true, "app_start.c");
 build.CompileAll();
 
-var ram1 = "../Lib/soc/realtek/8195a/misc/bsp/image/ram_1.r.bin";
+var ram1 = lib + "soc/realtek/8195a/misc/bsp/image/ram_1.r.bin";
 var cmd = "--rename-section .data=.loader.data,contents,alloc,load,readonly,data -I binary -O elf32-littlearm -B arm {0} obj/ram_1.r.o".F(ram1);
 build.ObjCopy.Run(cmd, 3000, NewLife.Log.XTrace.WriteLine);
 build.Objs.Add("Obj\\ram_1.r.o");
 
-/*build.ExtBuilds.Add("-L../Lib/soc/realtek/8195a/misc/bsp/lib/common/GCC/ -l_platform -l_wlan_mp -l_p2p -l_wps -l_rtlstd -l_websocket -l_xmodem -lm -lc -lnosys -lgcc");*/
-build.Libs.Remove("lib_wlan_mp.a");
-build.Libs.Remove("lib_sdcard.a");
 build.ExtBuilds = "-lm -lc -lnosys -lgcc -nostartfiles";
 
 var rs = build.Build(".axf");
@@ -61,7 +59,7 @@ buf.Write(start, 4);
 
 var fs = File.Create("ram_all.bin");
 // 写入img1并填充44k
-fs.Write(File.OpenRead("../Lib/soc/realtek/8195a/misc/bsp/image/ram_1.p.bin"));
+fs.Write(File.OpenRead(lib + "soc/realtek/8195a/misc/bsp/image/ram_1.p.bin"));
 var pad = new Byte[44 * 1024 - (Int32)fs.Length];
 Buffer.SetByte(pad, 0, 0xFF);
 fs.Write(pad);
