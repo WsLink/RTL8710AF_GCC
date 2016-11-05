@@ -29,9 +29,9 @@ static void* log_##fn __attribute__((section(".data.log_init")))  = (void*)fn;
 		
 #define ATC_INDEX_NUM 32
 
-#ifndef SUPPORT_LOG_SERVICE
+/*#ifndef SUPPORT_LOG_SERVICE
 #define SUPPORT_LOG_SERVICE	1
-#endif
+#endif*/
 
 //LOG_SERVICE_BUFLEN: default, only 63 bytes could be used for keeping input
 //                                     cmd, the last byte is for string end ('\0').

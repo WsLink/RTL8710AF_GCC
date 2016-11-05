@@ -8,12 +8,12 @@
 #define __PLATFORM_OPTS_H__
 
 /*For MP mode setting*/
-#define SUPPORT_MP_MODE		1
+//#define SUPPORT_MP_MODE		0
 
 /**
  * For AT cmd Log service configurations
  */
-#define SUPPORT_LOG_SERVICE	1
+//#define SUPPORT_LOG_SERVICE	0
 #if SUPPORT_LOG_SERVICE
 #define LOG_SERVICE_BUFLEN     100 //can't larger than UART_LOG_CMD_BUFLEN(127)
 #define CONFIG_LOG_HISTORY	0
@@ -111,24 +111,24 @@
  * For iNIC configurations
  */
 #ifdef CONFIG_INIC //this flag is defined in IAR project
-#define CONFIG_INIC_EN 1//enable iNIC mode
-#undef CONFIG_ENABLE_WPS
-#define CONFIG_ENABLE_WPS 1
-#undef CONFIG_INCLUDE_SIMPLE_CONFIG
-#define CONFIG_INCLUDE_SIMPLE_CONFIG	1
-#undef CONFIG_WOWLAN_SERVICE
-#define CONFIG_WOWLAN_SERVICE 1
-#undef LOG_SERVICE_BUFLEN
-#define LOG_SERVICE_BUFLEN 256
-#undef CONFIG_LWIP_LAYER
-#define CONFIG_LWIP_LAYER	0
-#undef CONFIG_OTA_UPDATE
-#define CONFIG_OTA_UPDATE 0
-#undef CONFIG_EXAMPLE_WLAN_FAST_CONNECT
-#define CONFIG_EXAMPLE_WLAN_FAST_CONNECT 0
-#define CONFIG_INIC_SDIO_HCI	1 //for SDIO or USB iNIC
-#define CONFIG_INIC_USB_HCI	0
-#define CONFIG_INIC_CMD_RSP     1 //need to return msg to host
+	#define CONFIG_INIC_EN 1//enable iNIC mode
+	#undef CONFIG_ENABLE_WPS
+	#define CONFIG_ENABLE_WPS 1
+	#undef CONFIG_INCLUDE_SIMPLE_CONFIG
+	#define CONFIG_INCLUDE_SIMPLE_CONFIG	1
+	#undef CONFIG_WOWLAN_SERVICE
+	#define CONFIG_WOWLAN_SERVICE 1
+	#undef LOG_SERVICE_BUFLEN
+	#define LOG_SERVICE_BUFLEN 256
+	#undef CONFIG_LWIP_LAYER
+	#define CONFIG_LWIP_LAYER	0
+	#undef CONFIG_OTA_UPDATE
+	#define CONFIG_OTA_UPDATE 0
+	#undef CONFIG_EXAMPLE_WLAN_FAST_CONNECT
+	#define CONFIG_EXAMPLE_WLAN_FAST_CONNECT 0
+	#define CONFIG_INIC_SDIO_HCI	1 //for SDIO or USB iNIC
+	#define CONFIG_INIC_USB_HCI	0
+	#define CONFIG_INIC_CMD_RSP     1 //need to return msg to host
 #endif
 /******************End of iNIC configurations*******************/
 
