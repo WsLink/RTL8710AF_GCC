@@ -3,7 +3,6 @@ extern "C" {
 #include "task.h"
 #include "diag.h"
 #include "main.h"
-#include <example_entry.h>
 
 extern int rtl_cryptoEngine_init(void);
 extern void console_init(void);
@@ -20,19 +19,13 @@ int main(void)
 	console_init();
 
 	DiagPrintf("万家灯火，无声物联！");
-	
-	/* pre-processor of application example */
-	pre_example_entry();
 
 	/* wlan intialization */
 #if defined(CONFIG_WIFI_NORMAL) && defined(CONFIG_NETWORK)
 	wlan_network();
 #endif
 
-	/* Execute application example */
-	example_entry();
-
-    	/*Enable Schedule, Start Kernel*/
+    /*Enable Schedule, Start Kernel*/
 #if defined(CONFIG_KERNEL) && !TASK_SCHEDULER_DISABLED
 	#ifdef PLATFORM_FREERTOS
 	vTaskStartScheduler();
