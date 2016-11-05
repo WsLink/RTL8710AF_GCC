@@ -1,0 +1,23 @@
+=>console_init		初始化控制台日志
+=>RtlConsolInitRam	建立控制台任务，栈大小512字节
+=>RtlConsolTaskRam	
+	=>log_service_init
+		=>log_init_table
+			=>at_wifi_init
+				=>at_wifi_items	wifi指令
+			=>at_fs_init
+			=>at_sys_init
+				=>at_sys_items	系统指令
+			=>at_ethernet_init
+				=>at_ethernet_items	网络指令
+			=>at_google_init
+				=>at_google_items	谷歌指令
+			=>at_transport_init
+				=>at_transport_init	传输指令
+			=>at_cloud_init
+		=>start_log_service	建立日志任务，栈大小5120字节
+			=>log_service
+	=>console_cmd_exec	循环处理命令
+	
+	
+
