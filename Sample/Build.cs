@@ -16,7 +16,7 @@ build.Defines.Add("CONFIG_PLATFORM_8195A");
 build.Defines.Add("GCC_ARMCM3");
 build.AddIncludes(lib, true, true);
 build.AddLibs(lib, "*RTL8710*.a");
-build.AddLibs("..\\bsp", "lib_platform.a;lib_wlan.a;lib_p2p.a;lib_wps.a;lib_rtlstd.a;lib_websocket.a;lib_xmodem.a;lib_rom.a");
+build.AddLibs("..\\bsp", "lib_platform.a;lib_wlan.a;lib_p2p.a;lib_wps.a;lib_rtlstd.a;lib_websocket.a;lib_xmodem.a");
 build.AddFiles(".", "*.c;*.cpp");
 //build.AddFiles(lib, "*.c;*.cpp", true, "app_start.c");
 // 引用这个文件可导致 lib_platform.a(startup.o) 被链接，从而确保整体成功

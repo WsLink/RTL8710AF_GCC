@@ -5,7 +5,6 @@ INCLUDE "export-rom_v02.txt"
 
 MEMORY
 {
-  ROM (rx) : ORIGIN = 0x00000000, LENGTH = 1024000
   TCM (rwx) : ORIGIN = 0x1FFF0000, LENGTH = 65536
   ROM_USED_RAM (rwx)  : ORIGIN = 0x10000bc8, LENGTH = 21560
   //RECY_RAM (rwx)  : ORIGIN = 0x10002100, LENGTH = 16128
@@ -20,11 +19,6 @@ SECTIONS
   __rom_bss_start__ = 0x10000300;
   __rom_bss_end__ = 0x10000bc8;
 
-  .rom.text :
-  {
-    *(.rom*)
-  } > ROM
-  
   .bootloader :
   {
     KEEP(*(.loader.data*))

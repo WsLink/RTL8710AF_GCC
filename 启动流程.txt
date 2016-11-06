@@ -1,3 +1,19 @@
+=>image2
+=>InfraStart
+	=>HalCommonInit
+	=>ShowRamBuildInfo
+	=>SystemCoreClockUpdate
+	=>SYSPlatformInit
+	=>En32KCalibration
+	=>InitSoCPM
+		=>InitSYSIRQ
+	=>SDIO_Device_Off
+	=>SetFreeRTOSHandler
+	=>SpicDisableRtl8195A
+	=>AppStart
+		=>_low_level_init
+		=>main
+
 =>console_init		初始化控制台日志
 =>RtlConsolInitRam	建立控制台任务，栈大小512字节
 =>RtlConsolTaskRam	
