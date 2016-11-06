@@ -15,19 +15,23 @@ build.Entry = "Reset_Handler";
 build.Defines.Add("CONFIG_PLATFORM_8195A");
 build.Defines.Add("GCC_ARMCM3");
 build.AddIncludes(lib, true, true);
-//build.AddLibs(lib, "*RTL8710*.a");
+build.AddLibs(lib, "*RTL8710*.a");
 build.AddLibs(lib + "soc/realtek/8195a/misc/bsp/lib/common/GCC/", "lib_platform.a;lib_wlan.a;lib_p2p.a;lib_wps.a;lib_rtlstd.a;lib_websocket.a;lib_xmodem.a");
 build.AddFiles(".", "*.c;*.cpp");
-build.AddFiles(lib, "*.c;*.cpp", true, "app_start.c");
+//build.AddFiles(lib, "*.c;*.cpp", true, "app_start.c");
+// 引用这个文件可导致 lib_platform.a(startup.o) 被链接，从而确保整体成功
+//build.AddFiles(lib, "low_level_io.c");
 build.CompileAll();
 
 var ram1 = lib + "soc/realtek/8195a/misc/bsp/image/ram_1.r.bin";
 var cmd = "--rename-section .data=.loader.data,contents,alloc,load,readonly,data -I binary -O elf32-littlearm -B arm {0} obj/ram_1.r.o".F(ram1);
 build.ObjCopy.Run(cmd, 3000, NewLife.Log.XTrace.WriteLine);
-build.Objs.Add("Obj\\ram_1.r.o");
+//build.Objs.Add("Obj\\ram_1.r.o");
 
 build.ExtBuilds = "-lm -lc -lnosys -lgcc -nostartfiles";
 
+// 打开链接详细信息，方便分析链接过程
+//build.LinkVerbose = true;
 var rs = build.Build(".axf");
 if(rs != 0) return;
 
