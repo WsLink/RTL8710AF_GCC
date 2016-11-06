@@ -98,7 +98,7 @@ UartLogCmdExecute(
 //<Return   >:  VOID
 //<Notes    >:  NA
 //======================================================
-MON_RAM_TEXT_SECTION
+//MON_RAM_TEXT_SECTION
 VOID
 UartLogIrqHandleRam
 (
@@ -190,7 +190,7 @@ exit:
 
 
 
-MON_RAM_TEXT_SECTION
+//MON_RAM_TEXT_SECTION
 VOID
 RtlConsolInitRam(
     IN  u32     Boot,
@@ -311,7 +311,7 @@ void console_cmd_exec(PUART_LOG_CTL   pUartLogCtlExe)
 //======================================================
 // overload original RtlConsolTaskRam
 extern void log_service_init(void);
-MON_RAM_TEXT_SECTION
+//MON_RAM_TEXT_SECTION
 VOID
 RtlConsolTaskRam(
     VOID *Data
