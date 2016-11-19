@@ -3,9 +3,8 @@
 
 var build = Builder.Create("GCC");
 build.Init(false);
-build.Cortex = 3;
+build.CPU = "Cortex-M3";
 build.Linux = true;
-//build.Partial = true;	// 分部编译链接
 build.RebuildTime = 7 * 24 * 3600;
 build.Defines.Add("CONFIG_PLATFORM_8195A");
 build.Defines.Add("GCC_ARMCM3");
@@ -15,7 +14,7 @@ build.AddFiles("os", "*.c;*.cpp;*.s", true, "");
 build.AddFiles("soc\\realtek\\8195a", "*.c;*.cpp;*.s", true, "rtl8195a_pcm.c;rtl8195a_sdio_device.c;app_start.c;cmsis_nvic.c");
 build.CompileAll();
 
-var ram1 = "soc/realtek/8195a/misc/bsp/image/ram_1.r.bin";
+var ram1 = "../bsp/ram_1.r.bin";
 var cmd = "--rename-section .data=.loader.data,contents,alloc,load,readonly,data -I binary -O elf32-littlearm -B arm {0} obj/ram_1.r.o".F(ram1);
 build.ObjCopy.Run(cmd, 3000, NewLife.Log.XTrace.WriteLine);
 build.Objs.Add("Obj\\ram_1.r.o");
