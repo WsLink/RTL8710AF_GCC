@@ -7,9 +7,8 @@ var lib = "..\\Lib\\";
 
 var build = Builder.Create("GCC") as GCC;
 build.Init(false);
-build.Cortex = 3;
+build.CPU = "Cortex-M3";
 build.Linux = true;
-build.RebuildTime = 7 * 24 * 3600;
 build.Specs = "nano.specs";
 build.Entry = "Reset_Handler";
 build.Defines.Add("CONFIG_PLATFORM_8195A");
