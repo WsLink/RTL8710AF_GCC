@@ -1,7 +1,7 @@
 // 本脚本文件需要安装XScript才能双击运行，下载后解压缩运行一次XScript.exe即可完成安装
 // https://github.com/NewLifeX/XScript/releases
 
-var build = Builder.Create("GCC");
+var build = Builder.Create("GCCArm");
 build.Init(false);
 build.CPU = "Cortex-M3";
 build.Linux = true;

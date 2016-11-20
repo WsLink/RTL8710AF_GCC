@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 var lib = "..\\Lib\\";
 
-var build = Builder.Create("GCC") as GCC;
+var build = Builder.Create("GCCArm") as GCC;
 build.Init(false);
 build.CPU = "Cortex-M3";
 build.Linux = true;
